@@ -41,6 +41,6 @@ f.write(f"<Title>{Path(sys.argv[1]).stem} Google Messages</Title>")
 for message in data['messages']:
     try:
         f.write(f"<h4>Sent by: {message['creator']['name']}, {message['created_date']} </h4> Text: {format_string(message['text'])}<br/>\n")
-    except:
-        pass
+    except Exception as e:
+        print(f"Error processing json section: {str(e)}")
 
