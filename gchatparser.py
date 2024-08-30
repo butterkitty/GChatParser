@@ -19,7 +19,7 @@ def format_string(s):
 
     for img in images:
         try:  # Try to add URL as an HTML image
-            formatted_string += f'<img src="{img}" alt="image"> '
+            formatted_string += f'<details><summary class=collapsible>LOAD IMAGE</summary><img loading="lazy" src="{img}" alt="image"></details> '
         except Exception as e:  # If invalid, ignore and continue
             print(f"Error processing image {img}: {str(e)}")
 
@@ -27,7 +27,7 @@ def format_string(s):
 
 def insert_media(s):
     if (re.search('(?:jpg|jpeg|png|gif)$', s)):
-        s = f'<img src="{Path(sys.argv[1]).parent}/{s}" alt="image"> '
+        s = f'<details><summary class=collapsible>LOAD IMAGE</summary><img loading="lazy" src="{Path(sys.argv[1]).parent}/{s}" alt="image"></details> '
     elif (re.search('(?:mp4|mov|avi|mkv)$', s)):
         s = f'<a href="{Path(sys.argv[1]).parent}/{s}">{Path(sys.argv[1]).parent}/{s}</a>'
     return s
@@ -40,7 +40,51 @@ with open(sys.argv[1], 'r') as f:
 
 # Print all messages
 f = open(f"{Path(sys.argv[1]).stem}.html", "w")
-f.write(f"<Title>{Path(sys.argv[1]).stem} Google Messages</Title>")
+f.write('<style>\n'  \
+'/* Style the button that is used to open and close the collapsible content */\n' \
+'.collapsible {\n' \
+'  background-color: #eee;\n' \
+'  color: #444;\n' \
+'  cursor: pointer;\n' \
+'  padding: 18px;\n' \
+'  width: 100%;\n' \
+'  border: none;\n' \
+'  text-align: left;\n' \
+'  outline: none;\n' \
+'  font-size: 15px;\n' \
+'}\n' \
+'\n' \
+'/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */\n' \
+'.active, .collapsible:hover {\n' \
+'  background-color: #ccc;\n' \
+'}\n'\
+'\n' \
+'/* Style the collapsible content. Note: hidden by default */\n' \
+'.content {\n' \
+'  padding: 0 18px;\n' \
+'  display: none;\n' \
+'  overflow: hidden;\n' \
+'  background-color: #f1f1f1;\n' \
+'}\n' \
+'</style>\n' \
+'\n' \
+'<script>\n' \
+'var coll = document.getElementsByClassName("collapsible");\n' \
+'var i;\n' \
+'\n' \
+'for (i = 0; i < coll.length; i++) {\n' \
+'  coll[i].addEventListener("click", function() {\n' \
+'    this.classList.toggle("active");\n' \
+'    var content = this.nextElementSibling;\n' \
+'    if (content.style.display === "block") {\n' \
+'      content.style.display = "none";\n' \
+'    } else {\n' \
+'      content.style.display = "block";\n' \
+'    }\n' \
+'  });\n' \
+'}\n' \
+'</script>\n') 
+f.write(f"<Title>{Path(sys.argv[1]).stem} Google Messages</Title>\n")
 
 for message in data['messages']:
     try:
