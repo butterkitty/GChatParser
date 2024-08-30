@@ -25,7 +25,12 @@ def format_string(s):
 
     return s if not formatted_string.strip() else formatted_string.strip()
 
-
+def insert_media(s):
+    if (re.search('(?:jpg|jpeg|png|gif)$', s)):
+        s = f'<img src="{Path(sys.argv[1]).parent}/{s}" alt="image"> '
+    elif (re.search('(?:mp4|mov|avi|mkv)$', s)):
+        s = f'<a href="{Path(sys.argv[1]).parent}/{s}">{Path(sys.argv[1]).parent}/{s}</a>'
+    return s
 
 
 
@@ -39,7 +44,11 @@ f.write(f"<Title>{Path(sys.argv[1]).stem} Google Messages</Title>")
 
 for message in data['messages']:
     try:
-        f.write(f"<h4>Sent by: {message['creator']['name']}, {message['created_date']} </h4> Text: {format_string(message['text'])}<br/>\n")
+        if (message.get('text',False)):
+            f.write(f"<h4>Sent by: {message['creator']['name']}, {message['created_date']} </h4> Text: {format_string(message['text'])}<br/>\n")
+        else:
+            for attached_file in message['attached_files']:
+                f.write(f"<h4>Sent by: {message['creator']['name']}, {message['created_date']} </h4> Text: {insert_media(attached_file['export_name'])}<br/>\n")
     except Exception as e:
-        print(f"Error processing json section: {str(e)}")
+        print(f"Error processing json section: {str(e)} Date: {message['created_date']}")
 
