@@ -66,24 +66,7 @@ f.write('<style>\n'  \
 '  overflow: hidden;\n' \
 '  background-color: #f1f1f1;\n' \
 '}\n' \
-'</style>\n' \
-'\n' \
-'<script>\n' \
-'var coll = document.getElementsByClassName("collapsible");\n' \
-'var i;\n' \
-'\n' \
-'for (i = 0; i < coll.length; i++) {\n' \
-'  coll[i].addEventListener("click", function() {\n' \
-'    this.classList.toggle("active");\n' \
-'    var content = this.nextElementSibling;\n' \
-'    if (content.style.display === "block") {\n' \
-'      content.style.display = "none";\n' \
-'    } else {\n' \
-'      content.style.display = "block";\n' \
-'    }\n' \
-'  });\n' \
-'}\n' \
-'</script>\n') 
+'</style>\n') 
 f.write(f"<Title>{Path(sys.argv[1]).stem} Google Messages</Title>\n")
 
 for message in data['messages']:
