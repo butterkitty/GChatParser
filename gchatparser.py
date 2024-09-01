@@ -15,7 +15,7 @@ def format_string(s):
             print(f"Error processing URL {url}: {str(e)}")
     
     # Extract all image URLs from the string (assuming they're HTTP or HTTPS)
-    images = re.findall('https?://\\S+(?:jpg|jpeg|png|gif)$', s)
+    images = re.findall(r'https?://\S+(?:jpg|jpeg|png|gif)$', s)
 
     for img in images:
         try:  # Try to add URL as an HTML image
