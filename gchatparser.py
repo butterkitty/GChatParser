@@ -10,7 +10,7 @@ def format_string(s):
     formatted_string = ''
     for url in urls:
         try:  # Try to add URL as a clickable link
-            formatted_string += f'<a href="{url}">{url}</a> '
+            formatted_string += f'<a href="{url}" target=”_blank”>{url}</a> '
         except Exception as e:  # If invalid, ignore and continue
             print(f"Error processing URL {url}: {str(e)}")
     
